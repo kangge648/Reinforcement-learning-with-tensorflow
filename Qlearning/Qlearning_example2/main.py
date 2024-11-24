@@ -1,3 +1,13 @@
+# 这个例子与找宝藏不一样的地方在于Q table的维度需要实时更新
+# 假如出现了没出现过的state，需要加入新的一行
+# state可以理解为一个坐标，具体在maze_env.py中的step函数中的 s = self.canvas.coords(self.rect)
+# Q table的形式为
+#          Left   Right   Down   Up
+# state1   xxx     xxx    xxx    xxx
+# state2   xxx     xxx    xxx    xxx
+# ...      xxx     xxx    xxx    xxx
+# statex   xxx     xxx    xxx    xxx
+
 from maze_env import Maze
 from RL_brain import QLearningTable
 
