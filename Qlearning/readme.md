@@ -1,3 +1,5 @@
+参考链接：[【强化学习基础篇-1】Q-Learning_强化学习q函数更新-CSDN博客](https://blog.csdn.net/echo_Fangyb/article/details/139990253?ops_request_misc=&request_id=&biz_id=102&utm_term=强化学习Q learning更新&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-139990253.142^v100^control&spm=1018.2226.3001.4187)
+
 ![image-20241123232646850](C:\Users\kangge648\AppData\Roaming\Typora\typora-user-images\image-20241123232646850.png)
 
-[【强化学习基础篇-1】Q-Learning_强化学习q函数更新-CSDN博客](https://blog.csdn.net/echo_Fangyb/article/details/139990253?ops_request_misc=&request_id=&biz_id=102&utm_term=强化学习Q learning更新&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-139990253.142^v100^control&spm=1018.2226.3001.4187)
+对于离散的状态变量，Q learning就是在每一轮不断更新Q table，最后得到一个“成熟”的Q table
