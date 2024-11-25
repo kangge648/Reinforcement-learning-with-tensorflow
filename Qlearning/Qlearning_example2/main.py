@@ -50,3 +50,5 @@ if __name__ == "__main__":
     # 开始可视化环境 env
     env.after(100, update)
     env.mainloop()
+
+# 是通过env.after(100, update)来调用本文件的update函数的，100表示100ms之后调用
