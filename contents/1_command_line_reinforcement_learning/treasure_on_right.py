@@ -10,16 +10,16 @@ import numpy as np
 import pandas as pd
 import time
 
-np.random.seed(2)  # reproducible
+np.random.seed(2)  # randaom seed, which makes it reproducible
 
 
-N_STATES = 6   # the length of the 1 dimensional world
+N_STATES = 6   # -----T, the length of the 1 dimensional world
 ACTIONS = ['left', 'right']     # available actions
 EPSILON = 0.9   # greedy police
 ALPHA = 0.1     # learning rate
 GAMMA = 0.9    # discount factor
 MAX_EPISODES = 13   # maximum episodes
-FRESH_TIME = 0.3    # fresh time for one move
+FRESH_TIME = 0.03    # fresh time for one move
 
 
 def build_q_table(n_states, actions):
@@ -33,11 +33,11 @@ def build_q_table(n_states, actions):
 
 def choose_action(state, q_table):
     # This is how to choose an action
-    state_actions = q_table.iloc[state, :]
-    if (np.random.uniform() > EPSILON) or ((state_actions == 0).all()):  # act non-greedy or state-action have no value
+    state_actions = q_table.iloc[state, :] # the actions set of state
+    if (np.random.uniform() > EPSILON) or ((state_actions == 0).all()):  # act non-greedy or state-action have no value (initial conditions)
         action_name = np.random.choice(ACTIONS)
     else:   # act greedy
-        action_name = state_actions.idxmax()    # replace argmax to idxmax as argmax means a different function in newer version of pandas
+        action_name = state_actions.idxmax()    # the max value action's name, i.e., 'left' or 'right'
     return action_name
 
 
@@ -98,10 +98,12 @@ def rl():
 
             update_env(S, episode, step_counter+1)
             step_counter += 1
+        print('\r\nQ-table:\n')
+        print(q_table)
     return q_table
 
 
 if __name__ == "__main__":
     q_table = rl()
-    print('\r\nQ-table:\n')
-    print(q_table)
+    # print('\r\nQ-table:\n')
+    # print(q_table)
