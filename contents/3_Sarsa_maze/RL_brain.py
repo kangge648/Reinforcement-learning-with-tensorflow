@@ -62,10 +62,12 @@ class QLearningTable(RL):
 
 
 # on-policy
+# Sarsa和Qlearning的区别在于Sarsa下一步动作的确定的。更新策略不一致。
+# Sarsa更不愿意产生负的收益
 class SarsaTable(RL):
 
     def __init__(self, actions, learning_rate=0.01, reward_decay=0.9, e_greedy=0.9):
-        super(SarsaTable, self).__init__(actions, learning_rate, reward_decay, e_greedy)
+        super(SarsaTable, self).__init__(actions, learning_rate, reward_decay, e_greedy) #继承父函数的标准操作
 
     def learn(self, s, a, r, s_, a_):
         self.check_state_exist(s_)
