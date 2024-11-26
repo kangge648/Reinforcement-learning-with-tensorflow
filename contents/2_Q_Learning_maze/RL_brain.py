@@ -37,8 +37,16 @@ class QLearningTable:
             q_target = r + self.gamma * self.q_table.loc[s_, :].max()  # next state is not terminal
         else:
             q_target = r  # next state is terminal
-        self.q_table.loc[s, a] += self.lr * (q_target - q_predict)  # update
-
+        self.q_table[a] = self.q_table[a].astype(float) # change typeof data
+        self.q_table.loc[s, a] += self.lr * (q_target - q_predict)  # update(conflict, float to int)
+        
+    def check_state_exist(self, state):
+        if state not in self.q_table.index:
+            # 创建一个新的Series，初始化为0，索引为self.actions
+            new_state_series = pd.Series([0] * len(self.actions), index=self.q_table.columns, name=state)
+            # 使用loc直接在DataFrame中添加新行
+            self.q_table.loc[state] = new_state_series
+"""
     def check_state_exist(self, state):
         if state not in self.q_table.index:
             # append new state to q table
@@ -49,3 +57,5 @@ class QLearningTable:
                     name=state,
                 )
             )
+"""
+    
