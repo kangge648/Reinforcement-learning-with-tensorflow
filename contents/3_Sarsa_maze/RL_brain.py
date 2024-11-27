@@ -20,14 +20,10 @@ class RL(object):
 
     def check_state_exist(self, state):
         if state not in self.q_table.index:
-            # append new state to q table
-            self.q_table = self.q_table.append(
-                pd.Series(
-                    [0]*len(self.actions),
-                    index=self.q_table.columns,
-                    name=state,
-                )
-            )
+            # 创建一个新的Series，初始化为0，索引为self.actions
+            new_state_series = pd.Series([0] * len(self.actions), index=self.q_table.columns, name=state)
+            # 使用loc直接在DataFrame中添加新行
+            self.q_table.loc[state] = new_state_series
 
     def choose_action(self, observation):
         self.check_state_exist(observation)
@@ -73,7 +69,8 @@ class SarsaTable(RL):
         self.check_state_exist(s_)
         q_predict = self.q_table.loc[s, a]
         if s_ != 'terminal':
-            q_target = r + self.gamma * self.q_table.loc[s_, a_]  # next state is not terminal
+            q_target = r + self.gamma * self.q_table.loc[s_, a_]  # the difference between Qlearning and Sarsa
         else:
             q_target = r  # next state is terminal
+        self.q_table[a] = self.q_table[a].astype(float) # change typeof data
         self.q_table.loc[s, a] += self.lr * (q_target - q_predict)  # update
