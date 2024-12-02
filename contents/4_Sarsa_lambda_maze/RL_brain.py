@@ -21,13 +21,9 @@ class RL(object):
     def check_state_exist(self, state):
         if state not in self.q_table.index:
             # append new state to q table
-            self.q_table = self.q_table.append(
-                pd.Series(
-                    [0]*len(self.actions),
-                    index=self.q_table.columns,
-                    name=state,
-                )
-            )
+            to_be_append = pd.Series([0] * len(self.actions), index=self.q_table.columns, name=state)
+            # 使用loc直接在DataFrame中添加新行
+            self.q_table.loc[state] = to_be_append
 
     def choose_action(self, observation):
         self.check_state_exist(observation)
@@ -58,15 +54,13 @@ class SarsaLambdaTable(RL):
     def check_state_exist(self, state):
         if state not in self.q_table.index:
             # append new state to q table
-            to_be_append = pd.Series(
-                    [0] * len(self.actions),
-                    index=self.q_table.columns,
-                    name=state,
-                )
-            self.q_table = self.q_table.append(to_be_append)
+            # 创建一个新的Series，初始化为0，索引为self.actions
+            to_be_append = pd.Series([0] * len(self.actions), index=self.q_table.columns, name=state)
+            # 使用loc直接在DataFrame中添加新行
+            self.q_table.loc[state] = to_be_append
 
             # also update eligibility trace
-            self.eligibility_trace = self.eligibility_trace.append(to_be_append)
+            self.eligibility_trace.loc[state] = to_be_append
 
     def learn(self, s, a, r, s_, a_):
         self.check_state_exist(s_)
