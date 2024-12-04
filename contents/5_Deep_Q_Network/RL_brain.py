@@ -15,7 +15,7 @@ import pandas as pd
 import tensorflow as tf
 
 np.random.seed(1)
-tf.set_random_seed(1)
+tf.random.set_seed(1)
 
 
 # Deep Q Network off-policy
@@ -52,8 +52,8 @@ class DeepQNetwork:
 
         # consist of [target_net, evaluate_net]
         self._build_net()
-        t_params = tf.get_collection('target_net_params')
-        e_params = tf.get_collection('eval_net_params')
+        t_params = tf.data.Dataset('target_net_params')
+        e_params = tf.data.Dataset('eval_net_params')
         self.replace_target_op = [tf.assign(t, e) for t, e in zip(t_params, e_params)]
 
         self.sess = tf.Session()
@@ -68,8 +68,8 @@ class DeepQNetwork:
 
     def _build_net(self):
         # ------------------ build evaluate_net ------------------
-        self.s = tf.placeholder(tf.float32, [None, self.n_features], name='s')  # input
-        self.q_target = tf.placeholder(tf.float32, [None, self.n_actions], name='Q_target')  # for calculating loss
+        self.s = tf.data.Dataset(tf.float32, [None, self.n_features], name='s')  # input
+        self.q_target = tf.data.Dataset(tf.float32, [None, self.n_actions], name='Q_target')  # for calculating loss
         with tf.variable_scope('eval_net'):
             # c_names(collections_names) are the collections to store variables
             c_names, n_l1, w_initializer, b_initializer = \
@@ -94,7 +94,7 @@ class DeepQNetwork:
             self._train_op = tf.train.RMSPropOptimizer(self.lr).minimize(self.loss)
 
         # ------------------ build target_net ------------------
-        self.s_ = tf.placeholder(tf.float32, [None, self.n_features], name='s_')    # input
+        self.s_ = tf.data.Dataset(tf.float32, [None, self.n_features], name='s_')    # input
         with tf.variable_scope('target_net'):
             # c_names(collections_names) are the collections to store variables
             c_names = ['target_net_params', tf.GraphKeys.GLOBAL_VARIABLES]
